@@ -482,6 +482,7 @@ from .ketnet import KetnetIE
 from .khanacademy import KhanAcademyIE
 from .kickstarter import KickStarterIE
 from .keek import KeekIE
+from .kijk import KijkIE
 from .konserthusetplay import KonserthusetPlayIE
 from .kontrtube import KontrTubeIE
 from .krasview import KrasViewIE
