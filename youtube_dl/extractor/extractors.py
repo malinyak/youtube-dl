@@ -701,6 +701,8 @@ from .nowtv import (
 from .noz import NozIE
 from .npo import (
     AndereTijdenIE,
+    EoIE,
+    GemistvoornmtIE,
     NPOIE,
     NPOLiveIE,
     NPORadioIE,
