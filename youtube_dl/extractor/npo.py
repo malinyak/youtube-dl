@@ -510,7 +510,24 @@ class VaraIE(NPOPridEmbedIE):
             # Skip because of m3u8 download
             'skip_download': True
         }
-    }    
+    } 
+
+class KroIE(InfoExtractor):
+    IE_NAME = 'kro'
+
+    _VALID_URL = r'https?://(?:www|keuringsdienstvanwaarde|oben-acc3)\.?kro\.nl/(?:[^/]+/)*(?P<id>[^/]+)' 
+    def _real_extract(self, url):
+        display_id = self._match_id(url)
+        webpage = self._download_webpage(url, display_id)
+        video_id = self._search_regex(
+            r'PrimeVideoPlayer\(\'[^\']+\'\,\'(?P<id>\w+?)\'', webpage, 'video_id', group='id')
+        print('video_id:%s' % video_id)
+        return {
+            '_type': 'url_transparent',
+            'ie_key': 'NPO',
+            'url': 'npo:%s' % video_id,
+            'display_id': display_id
+        }     
     
 class GemistvoornmtIE(NPOPridEmbedIE):
     IE_NAME = 'gemistvoornmt'

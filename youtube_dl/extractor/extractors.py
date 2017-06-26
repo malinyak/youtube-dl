@@ -704,6 +704,7 @@ from .npo import (
     BnnIE,
     EoIE,
     GemistvoornmtIE,
+    KroIE,
     NPOIE,
     NPOLiveIE,
     NPORadioIE,
