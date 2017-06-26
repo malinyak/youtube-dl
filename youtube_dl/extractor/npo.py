@@ -444,12 +444,10 @@ class NPODataMidEmbedIE(InfoExtractor):
         }
 class NPOPridEmbedIE(InfoExtractor):
     def _real_extract(self, url):
-        print('aaa')
         display_id = self._match_id(url)
-        print(display_id)
         webpage = self._download_webpage(url, display_id)
         video_id = self._search_regex(
-            r'prid:\s*''(?P<id>\w+?)''', webpage, 'video_id', group='id')
+            r'prid:\s*\'(?P<id>\w+?)\'', webpage, 'video_id', group='id')
         return {
             '_type': 'url_transparent',
             'ie_key': 'NPO',
@@ -476,7 +474,7 @@ class SchoolTVIE(NPODataMidEmbedIE):
             'skip_download': True
         }
     }
-
+    
 class GemistvoornmtIE(NPOPridEmbedIE):
     IE_NAME = 'gemistvoornmt'
   # _VALID_URL = r'https?://(?:www\.)?gemistvoornmt\.nl/aflevering/(?P<id>[^/?#&]+)' #http://www.gemistvoornmt.nl/aflevering/1080203-de-wandeling-20-mei-2017
