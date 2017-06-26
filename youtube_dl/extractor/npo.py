@@ -494,6 +494,22 @@ class BnnIE(NPOPridEmbedIE):
             # Skip because of m3u8 download
             'skip_download': True
         }
+    }  
+
+class VaraIE(NPOPridEmbedIE):
+    IE_NAME = 'vara'
+
+    _VALID_URL = r'https?://(?:www|programma|media-service|media)\.?vara\.nl/(?:[^/]+/)*(?P<id>[^/]+)' 
+
+    _TEST = {
+        'url': 'http://programma.bnn.nl/smeris/media/369126',
+        'info_dict': {
+            'id': 'BNN_101383072',
+        },
+        'params': {
+            # Skip because of m3u8 download
+            'skip_download': True
+        }
     }    
     
 class GemistvoornmtIE(NPOPridEmbedIE):
