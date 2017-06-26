@@ -447,10 +447,12 @@ class NPOPridEmbedIE(InfoExtractor):
         display_id = self._match_id(url)
         webpage = self._download_webpage(url, display_id)
         video_id = self._search_regex(
-            r'prid:\s*[\'\"](?P<id>\w+?)[\'\"]', webpage, 'video_id', group='id')
+            r'prid:\s*[\'\"](?P<id>\w+?)[\'\"]', webpage, 'video_id', fatal=False, group='id')
+        print('video_id v1:%s' % video_id)
         if video_id is None:
             video_id = self._search_regex(
-                r'data-prid=(["\'])(?P<id>(?:(?!\1).)+)\1', webpage, 'video_id', group='id')
+                r'data-prid=(["\'])(?P<id>\w+?)[\'\"]', webpage, 'video_id', group='id')
+        print('video_id v2:%s' % video_id)
         return {
             '_type': 'url_transparent',
             'ie_key': 'NPO',
@@ -479,18 +481,14 @@ class SchoolTVIE(NPODataMidEmbedIE):
     }
     
 class BnnIE(NPOPridEmbedIE):
-    IE_NAME = 'gemistvoornmt'
+    IE_NAME = 'bnn'
 
-    _VALID_URL = r'https?://(?:www|programma|media-service|factsheets)\.?bnn\.nl/(?:[^/]+/)*(?P<id>[^/]+)' #http://www.gemistvoornmt.nl/aflevering/1080203-de-wandeling-20-mei-2017
+    _VALID_URL = r'https?://(?:www|programma|media-service|factsheets)\.?bnn\.nl/(?:[^/]+/)*(?P<id>[^/]+)' 
 
     _TEST = {
-        'url': 'http://www.gemistvoornmt.nl/aflevering/1085423-nos-journaal-30-05-2017/',
+        'url': 'http://programma.bnn.nl/smeris/media/369126',
         'info_dict': {
-            'id': 'WO_NTR_429477',
-            'display_id': 'ademhaling-de-hele-dag-haal-je-adem-maar-wat-gebeurt-er-dan-eigenlijk-in-je-lichaam',
-            'title': 'Ademhaling: De hele dag haal je adem. Maar wat gebeurt er dan eigenlijk in je lichaam?',
-            'ext': 'mp4',
-            'description': 'md5:abfa0ff690adb73fd0297fd033aaa631'
+            'id': 'BNN_101383072',
         },
         'params': {
             # Skip because of m3u8 download
@@ -500,8 +498,7 @@ class BnnIE(NPOPridEmbedIE):
     
 class GemistvoornmtIE(NPOPridEmbedIE):
     IE_NAME = 'gemistvoornmt'
-  # _VALID_URL = r'https?://(?:www\.)?gemistvoornmt\.nl/aflevering/(?P<id>[^/?#&]+)' #http://www.gemistvoornmt.nl/aflevering/1080203-de-wandeling-20-mei-2017
-    _VALID_URL = r'https?://(?:www\.)?gemistvoornmt\.nl/(?:[^/]+/)*(?P<id>[^/]+)' #http://www.gemistvoornmt.nl/aflevering/1080203-de-wandeling-20-mei-2017
+    _VALID_URL = r'https?://(?:www\.)?gemistvoornmt\.nl/(?:[^/]+/)*(?P<id>[^/]+)' 
 
     _TEST = {
         'url': 'http://www.gemistvoornmt.nl/aflevering/1085423-nos-journaal-30-05-2017/',
