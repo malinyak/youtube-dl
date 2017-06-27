@@ -511,6 +511,22 @@ class VaraIE(NPOPridEmbedIE):
             'skip_download': True
         }
     } 
+    
+class VProEmbeddedIE(InfoExtractor):
+    IE_NAME = 'vpro_embedded'
+
+    _VALID_URL = r'https?://js\.vpro\.nl/(?:[^/]+/)*\?id=(?P<id>\w+)' 
+      
+    def _real_extract(self, url):
+        display_id = self._match_id(url)
+        video_id = self._match_id(url)
+        print('video_id:%s' % video_id)
+        return {
+            '_type': 'url_transparent',
+            'ie_key': 'NPO',
+            'url': 'npo:%s' % video_id,
+            'display_id': display_id
+        }
 
 class KroIE(InfoExtractor):
     IE_NAME = 'kro'
@@ -565,6 +581,23 @@ class EoIE(NPODataMidEmbedIE):
             'skip_download': True
         }
     }
+    
+class NtrIE(InfoExtractor):
+    IE_NAME = 'ntr'
+
+    _VALID_URL = r'https?://(?:www|collegetour|focus)\.?kro\.nl/(?:[^/]+/)*(?P<id>[^/]+)' 
+    def _real_extract(self, url):
+        display_id = self._match_id(url)
+        webpage = self._download_webpage(url, display_id)
+        video_id = self._search_regex(
+            r'PrimeVideoPlayer\(\'[^\']+\'\,\'(?P<id>\w+?)\'', webpage, 'video_id', group='id')
+        print('video_id:%s' % video_id)
+        return {
+            '_type': 'url_transparent',
+            'ie_key': 'NPO',
+            'url': 'npo:%s' % video_id,
+            'display_id': display_id
+        }     
 
 class HetKlokhuisIE(NPODataMidEmbedIE):
     IE_NAME = 'hetklokhuis'

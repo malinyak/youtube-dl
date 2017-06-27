@@ -712,6 +712,7 @@ from .npo import (
     SchoolTVIE,
     HetKlokhuisIE,
     VPROIE,
+    VProEmbeddedIE,
     VaraIE,
     WNLIE,
 )
