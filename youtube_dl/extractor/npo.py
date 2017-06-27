@@ -447,7 +447,7 @@ class NPOPridEmbedIE(InfoExtractor):
         display_id = self._match_id(url)
         webpage = self._download_webpage(url, display_id)
         video_id = self._search_regex(
-            r'prid:\s*[\'\"](?P<id>\w+?)[\'\"]', webpage, 'video_id', fatal=False, group='id')
+            r'[\'\"]?prid[\'\"]?:\s*[\'\"](?P<id>\w+?)[\'\"]', webpage, 'video_id', fatal=False, group='id')
         print('video_id v1:%s' % video_id)
         if video_id is None:
             video_id = self._search_regex(
@@ -527,6 +527,23 @@ class VProEmbeddedIE(InfoExtractor):
             'url': 'npo:%s' % video_id,
             'display_id': display_id
         }
+        
+class NtrEmbeddedIE(InfoExtractor):
+    IE_NAME = 'ntr_embedded'
+
+    #_VALID_URL = r'https?://player\.ntr\.nl/(?:[^/]+/)*\?prid=(?P<id>\w+)' 
+    _VALID_URL = r'https?://player\.ntr\.nl/(?:[^/]+/)*index\.php\?prid=(?P<id>\w+)' 
+      
+    def _real_extract(self, url):
+        display_id = self._match_id(url)
+        video_id = self._match_id(url)
+        print('video_id:%s' % video_id)
+        return {
+            '_type': 'url_transparent',
+            'ie_key': 'NPO',
+            'url': 'npo:%s' % video_id,
+            'display_id': display_id
+        }        
 
 class KroIE(InfoExtractor):
     IE_NAME = 'kro'
@@ -582,22 +599,11 @@ class EoIE(NPODataMidEmbedIE):
         }
     }
     
-class NtrIE(InfoExtractor):
+class NtrIE(NPOPridEmbedIE):
     IE_NAME = 'ntr'
 
-    _VALID_URL = r'https?://(?:www|collegetour|focus)\.?kro\.nl/(?:[^/]+/)*(?P<id>[^/]+)' 
-    def _real_extract(self, url):
-        display_id = self._match_id(url)
-        webpage = self._download_webpage(url, display_id)
-        video_id = self._search_regex(
-            r'PrimeVideoPlayer\(\'[^\']+\'\,\'(?P<id>\w+?)\'', webpage, 'video_id', group='id')
-        print('video_id:%s' % video_id)
-        return {
-            '_type': 'url_transparent',
-            'ie_key': 'NPO',
-            'url': 'npo:%s' % video_id,
-            'display_id': display_id
-        }     
+    _VALID_URL = r'https?://(?:www|collegetour|focus)\.?ntr\.nl/(?:[^/]+/)*(?P<id>[^/]+)' 
+    
 
 class HetKlokhuisIE(NPODataMidEmbedIE):
     IE_NAME = 'hetklokhuis'

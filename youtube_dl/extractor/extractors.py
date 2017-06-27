@@ -709,12 +709,14 @@ from .npo import (
     NPOLiveIE,
     NPORadioIE,
     NPORadioFragmentIE,
+    NtrIE,
+    NtrEmbeddedIE,
     SchoolTVIE,
     HetKlokhuisIE,
+    VaraIE,
     VPROIE,
     VProEmbeddedIE,
-    VaraIE,
-    WNLIE,
+    WNLIE
 )
 from .npr import NprIE
 from .nrk import (
